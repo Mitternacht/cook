@@ -63,5 +63,5 @@ A weak GPU (for example an integrated Radeon 780M) is no reason for lower qualit
 
 ## Workspace
 
-- Work only inside the project folder.
+- Work only inside the folder the user named for this run.
 - Keep the build runnable at the end of every round. A broken build is a failed round.

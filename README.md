@@ -10,6 +10,16 @@ An agent skill for ambitious visual builds that have to hold up next to referenc
 
 </div>
 
+## Fork notes
+
+This is a fork of [Leonxlnx/cook](https://github.com/Leonxlnx/cook) (MIT). Three changes, all in `SKILL.md` under "Fork rules":
+
+1. **Manual start only.** `disable-model-invocation: true`, and the trigger phrases are gone from the description. It runs only when you type `/cook`.
+2. **You name the folder.** The agent works only inside it. No default.
+3. **You set the subagent mode.** `none` (default), `critics` or `many`. The agent never goes above it.
+
+The intake, `templates/brief.md` and the critic rules were updated to match. Everything else is upstream.
+
 ## Install
 
 Use the [skills CLI](https://github.com/vercel-labs/skills) for supported agents:
@@ -25,7 +35,7 @@ Claude Code:  ~/.claude/skills/cook
 Codex CLI:    ~/.codex/skills/cook
 ```
 
-Invoke it as `/cook` in Claude Code or `$cook` in Codex. It also triggers on phrases like "go cook", "iterate until it matches" or "match the references 99%".
+Invoke it as `/cook` in Claude Code or `$cook` in Codex. In this fork it never starts on its own: you type it, and you say which folder and which subagent mode.
 
 The side-by-side script needs Node 18+ and ffmpeg on your PATH. Everything else is plain Markdown.
 
@@ -34,7 +44,7 @@ The side-by-side script needs Node 18+ and ffmpeg on your PATH. Everything else 
 Attach your reference images and send:
 
 ```text
-/cook build this ancient greek world in three.js, match the 9 attached references
+/cook folder: ~/projects/greek-world, subagents: none. build this ancient greek world in three.js, match the 9 attached references
 ```
 
 The agent asks every open question once, with defaults, then works on its own. You get stills after every round. The final video is only rendered after you approve them.

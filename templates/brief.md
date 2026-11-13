@@ -6,6 +6,8 @@ Keep it short. The references carry the look. The text only sets the bar, the ru
 
 ```text
 /cook
+Folder: [path]
+Subagents: [none / critics / many]
 
 Build [what, in one sentence] in [three.js / WebGL / Remotion / your stack], based on the [N] reference [images / screens / videos] I attached.
 
@@ -28,7 +30,7 @@ Time
 - Depth over breadth: make one thing exceptional before you expand.
 
 Process
-- Work in rounds: render stills at the reference shots, compare them side by side with the references, let subagents with zero context rate them, fix the weakest part, repeat.
+- Work in rounds: render stills at the reference shots, compare them side by side with the references, [if subagents are on: let subagents with zero context rate them], fix the weakest part, repeat.
 - Send me stills after every round without pausing. Do not render the final [video] before I approve.
 
 Deliverable
@@ -44,6 +46,7 @@ The skill fills in the defaults for everything you leave out.
 
 ```text
 /cook
+Folder: [path]. Subagents: [none].
 Recreate the [N] attached references in [three.js], code only, no assets. Match them [99.9%].
 At least [8h]. Stills after every round, no final render before I approve.
 Questions now, then go cook.

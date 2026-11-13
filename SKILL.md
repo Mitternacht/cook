@@ -1,6 +1,7 @@
 ---
 name: cook
-description: Runs the Cook Loop for ambitious visual builds that must match reference images, screens or videos through long autonomous iteration. Use it for 3D worlds made in code (three.js, WebGL, shaders), code-rendered films, launch and motion videos, games and polished UI that must hold up next to references, especially runs of many hours or days while the user is away. Trigger when the user types /cook or $cook, says "cook", "go cook", "let it cook", "iterate until it matches", "match the references", "99%", "99.9%", "9/10 minimum" or "at least 8h", or attaches reference images and asks for a recreation in code. It runs one intake, then loops build, stills, zero-context critics and fixes against a numeric bar, and holds the final render until the user approves.
+description: Manual only. Runs the Cook Loop for ambitious visual builds that must match reference images, screens or videos through long autonomous iteration. Start it only when the user types /cook (or $cook) and names the folder to work in and the subagent mode. Never start it from other phrases such as "go cook", "let it cook" or "match the references", and never on your own judgment.
+disable-model-invocation: true
 ---
 
 # Cook
@@ -11,9 +12,25 @@ This skill runs the Cook Loop: one intake, then a long autonomous loop of build,
 
 Optional companions: /unlazy for effort and completion discipline (the Depth Tree), and any goal, loop or long-run mode the harness offers. Cook works without them.
 
+## Fork rules (read first)
+
+This fork adds three rules. They win over every other line in this skill.
+
+1. **Manual start only.** Start a run only when the user types `/cook` (or `$cook`). Never start one from a phrase, an attachment or your own judgment. If you think cook would help, say so in one line and stop. Resuming a run the user already started, after a context reset, is fine.
+2. **The user names the folder.** Work, write `cook/` and run commands only inside the folder the user named for this run. If none was named, ask for it at intake. Never assume the current directory and never touch files outside the folder.
+3. **The user sets the subagent mode.**
+
+| Mode | Allowed | Default |
+|---|---|---|
+| `none` | No subagents and no fresh sessions. You build and judge alone. | yes |
+| `critics` | Only zero-context critics, 2 or 3 per round. You build alone. | |
+| `many` | Parallel builders and critics, up to 12 at once. | |
+
+If the user did not name a mode, use `none`. Never go above the mode, not even when behind on pace. Write the mode in `cook/BRIEF.md`. It changes only when the user says so in chat.
+
 ## State files
 
-All run state lives in `cook/` at the project root. These files are your memory across context resets and the handoff to any other agent.
+All run state lives in `cook/` at the root of the folder the user named. These files are your memory across context resets and the handoff to any other agent.
 
 | Path | Holds |
 |---|---|
@@ -36,7 +53,7 @@ All run state lives in `cook/` at the project root. These files are your memory 
 
 Ask every open question in one message, each with a default, so the user can answer by number or reply "defaults". Skip what the prompt, the attachments or a filled `templates/brief.md` already answer. If nothing is open, say so and start. Questions and defaults: `references/intake.md`.
 
-Collect: what to build, references, bar, time budget, hard rules, deliverable, hardware, usage limits, and what you may download or publish.
+Collect: the folder and the subagent mode first (see Fork rules), then what to build, references, bar, time budget, hard rules, deliverable, hardware, usage limits, and what you may download or publish.
 
 Then write `cook/BRIEF.md` and `cook/ROUNDS.md` and start. From now on, never ask a question. The user may be asleep. Decide, log the decision under Decisions in ROUNDS.md, and keep working.
 
@@ -78,11 +95,11 @@ Before round 1, build the harness: a fixed camera preset per shot, a still rende
 
 Each round:
 1. Focus: open user feedback first, else the weakest dimension in the weakest shot.
-2. Fix it in depth. Split independent parts across parallel subagents.
+2. Fix it in depth. In mode `many` only, split independent parts across parallel subagents. Otherwise build it yourself.
 3. Render stills from the shot presets, same framing and aspect as each reference. For motion, render contact sheets and short clips.
 4. Make side-by-side images: reference left, render right.
 5. Measure what can be measured: color per region, frame time, seconds per rendered frame.
-6. Score with fresh-context critics: subagents with zero context that get only the side-by-side images and the rubric, optionally from another model. Your own score is logged, never decisive.
+6. Score with fresh-context critics (modes `critics` and `many`): subagents with zero context that get only the side-by-side images and the rubric. Another model only if the user named one. In mode `none`, score it yourself and mark every score "self-scored". Your own score is logged, never decisive.
 7. Log the round in `cook/ROUNDS.md`.
 8. Send the stills to the user (Gate) and keep going.
 9. Run the Stop check. If it fails, start the next round now.
@@ -102,7 +119,7 @@ After approval, render the final deliverable and check the file. For a video on 
 ## Stop check
 
 Stop only when all of these are true:
-- Every dimension in every shot meets the bar, by critic median after calibration.
+- Every dimension in every shot meets the bar, by critic median after calibration. In mode `none` there are no critics, so a self-scored bar never ends the run: stop at a hard cap, or when the user says it is done.
 - The time floor is reached (capped jobs have no floor).
 - The user approved the stills, and the final deliverable is rendered and its file checked.
 
@@ -117,6 +134,9 @@ Done before the floor means the bar was read too low. Reread the references at f
 - Report a number you did not measure or a check you did not run.
 - Use 100% of a usage window.
 - Put API keys, tokens or private information in anything you publish.
+- Start a run the user did not start with `/cook`.
+- Touch anything outside the folder the user named.
+- Use more subagents than the mode allows.
 
 ## Files in this skill
 

@@ -8,7 +8,7 @@ One message, every open question, a default for each. The user should be able to
 - Look at the references now. If something about them is unclear (which ones matter most, close recreation or same quality in an own style), put it in this message.
 - A dictated, messy prompt is fine (mixed languages, "yk", "go cook"). Keep the user's words and their bar. Clean it up, do not rewrite it, and do not add requirements they did not ask for.
 - Do not push the user to describe the look in words. A short prompt with strong references beats a long description. The images carry the look, the text sets the bar, the rules and the time.
-- If the user already said they are leaving ("I'm going to bed, decide everything"), do not send questions at all. Use the defaults, note them in BRIEF.md and start.
+- If the user already said they are leaving ("I'm going to bed, decide everything"), do not send questions at all. Use the defaults, note them in BRIEF.md and start. The one exception is the folder: it has no default, so if the user did not name it, ask for it first.
 
 ## Questions and defaults
 
@@ -16,6 +16,8 @@ Number the questions and ask only the open ones.
 
 | # | Question | Default when unanswered |
 |---|---|---|
+| A | Which folder do I work in? | None. Always required. Never assume the current directory. |
+| B | Subagents: `none`, `critics` (2 or 3 zero-context critics per round) or `many` (parallel builders and critics, up to 12)? | `none`. |
 | 1 | What are we building, in one sentence, and in which stack? | Required. If the user has no idea yet, see "No idea yet". |
 | 2 | Where are the references? Recreate them closely, or match their quality in an own style? | The attached files. Recreate closely. |
 | 3 | What is the bar? | 99.9% similarity per dimension for stills. For video, the references count as about 8.5/10 and the target is at least 9/10. |
@@ -51,6 +53,7 @@ Write it right after the answers. Keep it short and in the user's words where po
 ```markdown
 # Brief: [project]
 
+Folder: [path the user named]. Subagents: [none / critics / many].
 Target: [one sentence]. Stack: [stack].
 References: cook/refs/R01 to R[NN], [recreate closely / same quality, own style].
 Bar: composition [99.9], light [99.9], color [99.9], materials [99.9], detail near and far [99.9], motion [9/10].

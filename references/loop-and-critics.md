@@ -25,6 +25,7 @@ A sensible round length is 30 to 90 minutes: long enough for a real change, shor
 
 ## Parallel subagents
 
+- Only in mode `many`. In mode `critics`, subagents are critics and nothing else. In mode `none`, use no subagents at all. See Fork rules in SKILL.md.
 - Use them for independent parts (separate scenes, terrain, trees, water, sky, shaders) and for critics. The Athenaion run used 55 subagents, up to 12 in parallel.
 - Give each builder the brief, the shots it owns, the files it may change and its done condition. You stay the owner: you integrate, decide and keep the ledger.
 - Big builds can use roles: owner, performance monitor, tester, independent reviewer, and an inbox file for user feedback. The reviewer only rates work it did not build.
@@ -33,10 +34,11 @@ A sensible round length is 30 to 90 minutes: long enough for a real change, shor
 
 - Fresh context: a new subagent with no history, no code, no brief and not your score. Do not tell it who built the work, how long it took or what you think of it.
 - Input: the side-by-side images and the rubric with the bar. For video, contact sheets or the clip, with timecodes.
-- At least two critics per round, three or more for big builds. A different model as one of them helps.
+- Modes `critics` and `many` only. In mode `critics`, use 2 or 3 per round. In mode `many`, at least two per round, three or more for big builds.
+- A different model as one of them helps, but only if the user named one.
 - Take the median per dimension. If critics differ by more than 10 points (or 1.0 on a 10-point scale), add another critic.
 - Apply the calibration offset. Log raw and calibrated numbers.
-- Without subagents, use a fresh session that gets only the images and the rubric. If that is not possible either, score it yourself and mark it "self-scored" in the ledger.
+- In mode `none`, do not start a subagent or a fresh session. Score it yourself and mark it "self-scored" in the ledger.
 
 Prompt for stills:
 
@@ -97,7 +99,7 @@ Usage limits:
 - If you can read usage (a status command, a usage tool, or numbers the user gave you), check it at every round boundary.
 - Aim for about 20% of a 5h window per hour and about 99% of the window in total, never 100%. Do not burn everything in 2 hours and then wait 3.
 - Ahead of pace: fewer parallel subagents, more planning, critique and small fixes.
-- Behind pace: more parallel subagents on independent parts.
+- Behind pace: in mode `many`, more parallel subagents on independent parts. Never go above the mode.
 - Near the end of a window: finish the current step and write the ledger, so a hard stop never lands in the middle of a change.
 
 ## Long runs
